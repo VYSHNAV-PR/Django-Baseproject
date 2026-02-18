@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            background-color: red;
+            font-size: 15px;
+        }
+        button a{
+            text-decoration: none;
+             color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: blue;background-color: rgb(151, 145, 145);text-align:center;font-size:20px;">Home page</h1>
+   {% for i in a %}
+     <p>{{i}}</p>
+    {% endfor %} 
+    <button><a href="{% url 'about'%}">Go to about</a></button>
+     <button><a href="{% url 'contact'%}">Go to contact</a></button>
+     <button><a href="{% url 'viewbook'%}">View Book</a></button>
+</body>
+</html>

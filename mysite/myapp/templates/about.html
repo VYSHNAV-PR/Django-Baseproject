@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       button{
+            background-color: red;
+            font-size: 15px;
+        }
+        button a{
+            text-decoration: none;
+             color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="color: blue;background-color: rgb(151, 145, 145);text-align: center;">About</h1>
+    <button><a href="{% url 'home'%}">Go to Home</a></button>
+     <button><a href="{% url 'contact'%}">Go to contact</a></button>
+</body>
+</html>
