@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-# from django.http import HttpResponse
 from .models import Book
 from .forms import BookForm
 # def home(request):
@@ -27,3 +26,16 @@ def addbook(request):
       return redirect('viewbook')
    return render(request,'addbook.html',{'abc':book})
 # Create your views here.
+def updatebook(request,id):
+   book=Book.objects.get(id=id)
+   form=BookForm(request.POST or None, instance=book)
+   if form.is_valid():
+      form.save()
+      return redirect('viewbook')
+   return render(request,'updatebook.html',{'abc':form})
+def deletebook(request,id):
+   book=Book.objects.get(id=id)
+   if request.method =='POST':
+      book.delete()
+      return redirect('viewbook')
+   return render(request,'deletebook.html',{'abc':book})
