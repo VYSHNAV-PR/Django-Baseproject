@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
+# from django.http import HttpResponse
 from .models import Book
-from .forms import BookForm
+from .forms import BookForm,UserRegisterForm
 # def home(request):
 #    data={
 #       'name':'vyshnav',
@@ -38,4 +39,9 @@ def deletebook(request,id):
    if request.method =='POST':
       book.delete()
       return redirect('viewbook')
-   return render(request,'deletebook.html',{'abc':book})
+def register(request):
+   form=UserRegisterForm(request.POST or None)
+   if request.method =='POST' and form.is_valid():
+      form.save()
+      return redirect('viewbook')
+   return render(request,'register.html',{"form":form})
