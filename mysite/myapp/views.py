@@ -21,7 +21,7 @@ def viewbook(request):
    a=Book.objects.all()
    return render(request,'viewbook.html',{'book':a})  
 def addbook(request):
-   book=BookForm(request.POST or None)
+   book=BookForm(request.POST or None,request.FILES or None)
    if book.is_valid():
       book.save()
       return redirect('viewbook')
@@ -29,7 +29,7 @@ def addbook(request):
 # Create your views here.
 def updatebook(request,id):
    book=Book.objects.get(id=id)
-   form=BookForm(request.POST or None, instance=book)
+   form=BookForm(request.POST or None,request.FILES or None, instance=book)
    if form.is_valid():
       form.save()
       return redirect('viewbook')

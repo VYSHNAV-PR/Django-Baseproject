@@ -1,5 +1,35 @@
-<form method="POST">
-    {% csrf_token%}
-    {{form.as_p}}
-    <input type="submit"  value="Register">
-</form>
+<style>
+    body{
+        background: linear-gradient(90deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        color: white;
+    }
+    .form-control {
+        width: 50%;
+        margin-left: 300px;
+        margin-top: 50px;
+        border: 2px solid black;
+    }
+
+    .form-btn {
+      border: 1px solid black;
+      margin-left: 300px;
+      margin-top: 19px;
+      background-color: black;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 80px;
+      font-size: 12px;
+    }
+    .form-btn:hover{
+        background-color: white;
+        color: black;
+    }
+</style>
+<div class="form-control">
+    <form method="POST">
+        {% csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Register" class="form-btn">
+    </form>
+</div>
