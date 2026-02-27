@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 # from django.http import HttpResponse
 from .models import Book
-from .forms import BookForm,UserRegisterForm
+from .forms import BookForm,UserRegisterForm,UserLoginForm
+from django.contrib.auth import login,logout
+from django.contrib.auth.decorators import login_required
 # def home(request):
 #    data={
 #       'name':'vyshnav',
@@ -17,9 +19,11 @@ def about(request):
    return render(request,'about.html')
 def contact(request):
    return render(request,'contact.html')
+@login_required
 def viewbook(request):
    a=Book.objects.all()
    return render(request,'viewbook.html',{'book':a})  
+@login_required
 def addbook(request):
    book=BookForm(request.POST or None,request.FILES or None)
    if book.is_valid():
@@ -27,6 +31,7 @@ def addbook(request):
       return redirect('viewbook')
    return render(request,'addbook.html',{'abc':book})
 # Create your views here.
+@login_required
 def updatebook(request,id):
    book=Book.objects.get(id=id)
    form=BookForm(request.POST or None,request.FILES or None, instance=book)
@@ -34,6 +39,7 @@ def updatebook(request,id):
       form.save()
       return redirect('viewbook')
    return render(request,'updatebook.html',{'abc':form})
+@login_required
 def deletebook(request,id):
    book=Book.objects.get(id=id)
    if request.method =='POST':
@@ -45,3 +51,13 @@ def register(request):
       form.save()
       return redirect('viewbook')
    return render(request,'register.html',{"form":form})
+def login_form(request):
+   forms=UserLoginForm(request,data=request.POST or None)
+   if request.method == 'POST' and forms.is_valid():
+      user=forms.get_user()
+      login(request,user)
+      return redirect('viewbook')
+   return render(request,'login.html',{'form':forms})
+def logout_form(request):
+   logout(request)
+   return redirect('login')

@@ -8,6 +8,8 @@ urlpatterns = [
     path('addbook/',views.addbook,name='addbook'),
     path('updatebook/<int:id>',views.updatebook,name='updatebook'),
     path('deletebook/<int:id>',views.deletebook,name='deletebook'),
-    path('register/',views.register,name='register')
+    path('register/',views.register,name='register'),
+    path('login/',views.login_form,name='login'),
+    path('logout/',views.logout_form,name='logout')
     
 ]
