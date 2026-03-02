@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 # from django.http import HttpResponse
-from .models import Book
+from .models import Book,Cart
 from .forms import BookForm,UserRegisterForm,UserLoginForm
 from django.contrib.auth import login,logout
 from django.contrib.auth.decorators import login_required
@@ -30,7 +30,7 @@ def addbook(request):
       book.save()
       return redirect('viewbook')
    return render(request,'addbook.html',{'abc':book})
-# Create your views here.
+# Create your views here
 @login_required
 def updatebook(request,id):
    book=Book.objects.get(id=id)
@@ -39,7 +39,7 @@ def updatebook(request,id):
       form.save()
       return redirect('viewbook')
    return render(request,'updatebook.html',{'abc':form})
-@login_required
+@login_required 
 def deletebook(request,id):
    book=Book.objects.get(id=id)
    if request.method =='POST':
@@ -61,3 +61,17 @@ def login_form(request):
 def logout_form(request):
    logout(request)
    return redirect('login')
+def view_cart(request):
+   cart_item=Cart.objects.filter(user=request.user)
+   total_price=0
+   for item in cart_item:
+      total_price+=item.book.price*item.quantity
+   return render(request,'viewcart.html',{"cart":cart_item,"total_price":total_price})
+
+def add_to_cart(request,book_id):
+   book=Book.objects.get(id=book_id)
+   cart_item,created=Cart.objects.get_or_create(user=request.user,book=book)
+   if not created:
+      cart_item.quantity+=1
+      cart_item.save()
+   return redirect('viewcart')
