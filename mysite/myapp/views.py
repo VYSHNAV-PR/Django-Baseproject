@@ -75,3 +75,17 @@ def add_to_cart(request,book_id):
       cart_item.quantity+=1
       cart_item.save()
    return redirect('viewcart')
+
+def delete_cart_item(request,id):
+   cart_item=Cart.objects.get(id=id,user=request.user)
+   if request.method =="POST":
+      if cart_item.quantity>1:
+         cart_item.quantity-=1
+         cart_item.save()
+      else:
+         cart_item.delete()
+   return redirect('viewcart')
+     
+def clear_cart(request):
+   cart=Cart.objects.filter(user=request.user).delete()
+   return redirect('viewcart')
