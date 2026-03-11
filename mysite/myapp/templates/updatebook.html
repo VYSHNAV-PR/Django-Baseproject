@@ -1,15 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST" enctype="multipart/form-data">
-    {% csrf_token%}
-    {{abc.as_p}}
-    <input type="submit"  value="Update Book">
+{% extends 'base.html'%}
+
+{% block title %}Update Book{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    body{
+        background-color: rgb(249, 245, 146);
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    form{
+        width: 420px;
+        margin: 80px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    form p{
+        margin-bottom: 15px;
+    }
+
+    label{
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="file"],
+    textarea,
+    select{
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    textarea{
+        height: 90px;
+    }
+
+    input[type="submit"]{
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover{
+        background-color: darkgreen;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ abc.as_p }}
+    <input type="submit" value="Update Book">
 </form>
-</body>
-</html>
+
+{% endblock %}

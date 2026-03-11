@@ -1,5 +1,16 @@
+{% extends 'base.html'%}
+{% block title%}Add Book{%endblock%}
+{% block content %}
+{%block extra_css%}
+<style>
+    body{
+        background-color: rgb(249, 245, 146);
+    }
+</style>
+{% endblock %}
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token%}
     {{abc.as_p}}
     <input type="submit"  value="Add Book">
 </form>
+{% endblock %}

@@ -1,9 +1,13 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 # from django.http import HttpResponse
 from .models import Book,Cart
 from .forms import BookForm,UserRegisterForm,UserLoginForm
 from django.contrib.auth import login,logout
 from django.contrib.auth.decorators import login_required
+import stripe
+from django.conf import settings
+from django.urls import reverse
+stripe.api_key=settings.STRIPE_SECRET_KEY
 # def home(request):
 #    data={
 #       'name':'vyshnav',
@@ -56,7 +60,7 @@ def login_form(request):
    if request.method == 'POST' and forms.is_valid():
       user=forms.get_user()
       login(request,user)
-      return redirect('viewbook')
+      return redirect('home')
    return render(request,'login.html',{'form':forms})
 def logout_form(request):
    logout(request)
@@ -89,3 +93,33 @@ def delete_cart_item(request,id):
 def clear_cart(request):
    cart=Cart.objects.filter(user=request.user).delete()
    return redirect('viewcart')
+
+
+def buy_now(request,book_id):
+   cart_item=get_object_or_404(Cart,user=request.user,id=book_id)
+   book=cart_item.book
+
+
+   session=stripe.checkout.Session.create(
+      payment_method_types=['card'],
+      line_items=[
+         {
+            'price_data':{
+               'currency':'inr',
+               'product_data':{
+                  'name':book.title,              
+                    },
+                    'unit_amount':int(float(book.price)*100),
+            },
+            'quantity':cart_item.quantity,
+         }
+      ],
+      mode="payment",
+      success_url=request.build_absolute_uri(reverse('success')),
+      cancel_url=request.build_absolute_uri(reverse('viewcart'))
+   )
+   return redirect(session.url)
+def payment_success(request):
+   return render(request,'success.html')
+def payment_cancel(request):
+   return render(request,'viewcart.html')

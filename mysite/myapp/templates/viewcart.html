@@ -1,69 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html'%}
+{% block title%}View Cart{%endblock%}
+{% block content %}
+{%block extra_css%}
+<style>
+    body {
+         background-color: rgb(245, 243, 190);
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            background-color: blanchedalmond;
-        }
+    /* Page heading */
+    h1 {
+        margin-top: 30px;
+        color: #2c3e50;
+        letter-spacing: 1px;
+    }
 
-       table{
+    /* Table styling */
+    table {
         border-collapse: collapse;
-        width: 400px;
-        height: auto;
-        margin-top: 100px;
-       }
+        width: 80%;
+        margin: auto;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-        button {
-            background-color: rgb(175, 193, 85);
-            font-size: 15px;
-            margin-top: 10px;
-        }
+    /* Table header */
+    th {
+        background-color: #181d19;
+        color: white;
+        padding: 12px;
+        text-align: center;
+        font-size: 16px;
+    }
 
-        button a {
-            text-decoration: none;
-            color: rgb(17, 5, 5);
-        }
-    </style>
-</head>
+    /* Table cells */
+    td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
 
-<body>
-    <center>
-        <h1>MY CART</h1>
-        <table border="2">
-            <tr>
-                <th>Book Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-            {% for i in cart%}
-            <tr>
-                <td>{{i.book.title}}</td>
-                <td>{{i.book.price}}</td>
-                <td>{{i.quantity}}</td>
-                <td>
-                    <form action="{% url 'deletecart' i.id %}" method="POST" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit"
-                            style="background:none;border:none;color:red; font-size:15px; cursor:pointer;">
-                            🗑 </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor%}
-                <td colspan="3">Total Price:{{total_price}}</td>
-        </table>
-        <button><a href="{% url 'viewbook'%}">View Book</a></button>
-        <form action="{% url 'clearcart'%}" method="POST" style="display: inline;"
-            onsubmit="return confirm('Are you sure you want to Clear this Cart?');">
-            {% csrf_token %}
-            <button type="submit">
-                Clear Cart </button>
-        </form>
-    </center>
-</body>
+    /* Row hover effect */
+    tr:hover {
+        background-color: #f5f5f5;
+    }
 
-</html>
+    /* Book images */
+    img {
+        border-radius: 5px;
+    }
+
+    /* Action icons */
+    td a {
+        font-size: 15px;
+        margin: 5px;
+        text-decoration: none;
+    }
+
+    /* Buttons below table */
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        margin: 8px;
+        border-radius: 5px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button a {
+        text-decoration: none;
+        color: white;
+    }
+
+    button:hover {
+        background-color: #388e3c;
+    }
+</style>
+{%endblock%}
+<center>
+    <h1>MY CART</h1>
+    <table border="2">
+        <tr>
+            <th>Book Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        {% for i in cart%}
+        <tr>
+            <td>{{i.book.title}}</td>
+            <td>{{i.book.price}}</td>
+            <td>{{i.quantity}}</td>
+            <td>
+                <form action="{% url 'deletecart' i.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        Delete</button>
+                </form>
+                <button  type="button" class="btn btn-primary"><a href="{% url 'payment' i.id%}">Buy Now</a></button>
+            </td>
+        </tr>
+        {% endfor%}
+        <td colspan="3">Total Price:{{total_price}}</td>
+    </table>
+    <button><a href="{% url 'viewbook'%}">View Book</a></button>
+    <form action="{% url 'clearcart'%}" method="POST" style="display: inline;"
+        onsubmit="return confirm('Are you sure you want to Clear this Cart?');">
+        {% csrf_token %}
+        <button type="submit">
+            Clear Cart </button>
+    </form>
+</center>
+{%endblock%}

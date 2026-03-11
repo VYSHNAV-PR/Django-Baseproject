@@ -12,10 +12,10 @@
         }
 
         .form-control {
-            margin-left: 350px;
+            margin-left: 250px;
             margin-right: 250px;
             margin-top: 150px;
-            width: 50%;
+            width: 30%;
             height: auto;
             border: 5px solid whitesmoke;
             background-color: transparent;
@@ -31,17 +31,45 @@
         .password1 {
             background-color: green;
         }
+
+        button {
+            background-color: rgb(77, 172, 240);
+            font-size: 15px;
+            border-radius: 5px;
+            width: 90px;
+        }
+
+        button a {
+            text-decoration: none;
+            color: rgb(17, 5, 5);
+        }
+        button:hover{
+            background-color: aquamarine;
+        }
+        .login-one{
+            display:inline;
+            justify-content: center;
+            gap: 20px;
+        }
     </style>
 </head>
+<center>
 
-<body>
-    <div class="form-control">
-        <form method="POST">
-            {%csrf_token%}
-            {{form.as_p}}
-            <center>
-                <input type="submit" value="Login" style="background-color: rgb(203, 204, 199);font-size: 15px;margin-top:10px;">
-            </center>
-        </form>
-    </div>
-</body </html>
+    <body>
+        <div class="form-control">
+            <form method="POST">
+                {%csrf_token%}
+                {{form.as_p}}
+                <center>
+                    <div class="login-one">
+                        <!-- <p style="color: rgb(34, 34, 35);">Don't Have an Account?</p> -->
+                        <button><a href="{% url 'register'%}">Register</a></button>
+                    </div>
+                    <button><a href="{% url 'home'%}">Login</a></button>
+                </center>
+            </form>
+        </div>
+    </body>
+</center>
+
+</html>
